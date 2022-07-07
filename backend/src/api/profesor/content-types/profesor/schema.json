@@ -1,0 +1,56 @@
+{
+  "kind": "collectionType",
+  "collectionName": "profesors",
+  "info": {
+    "singularName": "profesor",
+    "pluralName": "profesors",
+    "displayName": "profesor",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "nombre": {
+      "type": "string",
+      "required": true
+    },
+    "CI": {
+      "type": "string",
+      "required": true,
+      "unique": true,
+      "maxLength": 11
+    },
+    "telefono": {
+      "type": "string"
+    },
+    "grado_cientifico": {
+      "type": "enumeration",
+      "enum": [
+        "ninguno",
+        "master",
+        "doctor"
+      ],
+      "required": true,
+      "default": "ninguno"
+    },
+    "categoria_docente": {
+      "type": "enumeration",
+      "enum": [
+        "instructor",
+        "asistente",
+        "auxiliar",
+        "titular"
+      ],
+      "default": "titular",
+      "required": true
+    },
+    "clases": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::clase.clase",
+      "mappedBy": "profesor"
+    }
+  }
+}

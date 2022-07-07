@@ -1,0 +1,42 @@
+{
+  "kind": "collectionType",
+  "collectionName": "estudiantes",
+  "info": {
+    "singularName": "estudiante",
+    "pluralName": "estudiantes",
+    "displayName": "estudiante",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "nombre": {
+      "type": "string",
+      "required": true,
+      "unique": true
+    },
+    "CI": {
+      "type": "string",
+      "required": true,
+      "unique": true
+    },
+    "direccion": {
+      "type": "string",
+      "required": true
+    },
+    "telefono": {
+      "type": "string"
+    },
+    "anno_academico": {
+      "type": "integer"
+    },
+    "clases": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::clase.clase",
+      "inversedBy": "estudiantes"
+    }
+  }
+}

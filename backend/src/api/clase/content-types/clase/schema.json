@@ -1,0 +1,48 @@
+{
+  "kind": "collectionType",
+  "collectionName": "clases",
+  "info": {
+    "singularName": "clase",
+    "pluralName": "clases",
+    "displayName": "clase"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "nombre": {
+      "type": "string",
+      "required": true,
+      "unique": true
+    },
+    "anno": {
+      "type": "integer"
+    },
+    "disciplina": {
+      "type": "string",
+      "required": false
+    },
+    "responsable": {
+      "type": "string",
+      "required": true,
+      "unique": false
+    },
+    "estudiante": {
+      "type": "string",
+      "required": true
+    },
+    "profesor": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::profesor.profesor",
+      "inversedBy": "clases"
+    },
+    "estudiantes": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::estudiante.estudiante",
+      "mappedBy": "clases"
+    }
+  }
+}
