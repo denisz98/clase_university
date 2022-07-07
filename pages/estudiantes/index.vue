@@ -1,3 +1,4 @@
+<!-- eslint-disable-next-line vue/multi-word-component-names -->
 <template>
 <v-container mt-5>
   <v-data-table
@@ -6,14 +7,14 @@
     :sort-by="search"
     class="elevation-1" dark
   >
-    <template v-slot:top>
+    <template #top>
       <v-toolbar flat>
-        <v-toolbar-title>estudiantes</v-toolbar-title>
+        <v-toolbar-title>Estudiantes</v-toolbar-title>
         <v-divider class="mx-4" inset vertical></v-divider>
-        
+
         <v-spacer></v-spacer>
         <v-dialog v-model="dialog" max-width="500px">
-          <template v-slot:activator="{ on, attrs }">
+          <template #activator="{ on, attrs }">
             <v-btn color="primary" dark class="mb-2" v-bind="attrs" v-on="on">
               Add New
             </v-btn>
@@ -56,7 +57,7 @@
                       label="Año académico"
                     ></v-text-field>
                   </v-col>
-                  
+
                 </v-row>
               </v-container>
             </v-card-text>
@@ -104,6 +105,7 @@ export default {
     search: '',
     dialog: false,
     dialogDelete: false,
+    // eslint-disable-next-line no-sparse-arrays
     headers: [
       {
         text: 'Nombres',
@@ -163,7 +165,9 @@ export default {
         .get('http://localhost:1337/api/estudiantes')
         .then((response) => {
           response.data.data.forEach((item) => {
+            console.log(item.id)
             this.estudiante.push({
+              id: item.id,
               nombre: item.attributes.nombre,
               CI: item.attributes.CI,
               direccion: item.attributes.direccion,
@@ -183,26 +187,20 @@ export default {
       this.dialog = true
     },
 
-    deleteItem(id) {
-      axios
-      .delete('http://localhost:1337/api/estudiantes/'+id)
+   deleteItem(item) {
+     this.editedIndex = this.estudiante.indexOf(item)
+      this.editedItem = Object.assign({}, item)
+      this.dialogDelete = true
+    },
+
+    async deleteItemConfirm() {
+      await axios
+      .delete('http://localhost:1337/api/estudiantes/'+this.estudiante[this.editedIndex].id)
       .then((response) => console.log(response))
       .catch((error) => console.log("Error: "+ error));
-      // this.editedIndex = this.estudiante.indexOf(item)
-      // this.editedItem = Object.assign({}, item)
-      // this.dialogDelete = true
-    },
-    //  deleteUser(id: any) {
-    // axios
-    //   .delete("https://jsonplaceholder.typicode.com/users"+id)
-    //   .then((response) => console.log(response))
-    //   .catch((response) => console.log(response));
-  // }
-    
-
-    deleteItemConfirm() {
-      this.estudiante.splice(this.editedIndex, 1)
-      this.closeDelete()
+      this.estudiante = [];
+      await this.initialize();
+      this.closeDelete();
     },
 
     close() {
@@ -228,21 +226,7 @@ export default {
         })
       } catch (error) {
         console.log(error)
-      }
-      // this.customers.push(this.editedItem)
-      // await axios
-      //   .post('http://localhost:1337/api/customers/', {
-      //     data: {
-      //       customer_id: this.editItem.customer_id,
-      //       customer_name: this.editItem.customer_name,
-      //     },
-      //   })
-      //   .then(function (response) {
-      //     console.log(response)
-      //   })
-      //   .catch(function (error) {
-      //     console.error(error)
-      //   })
+      }S
       this.close()
     },
   },
