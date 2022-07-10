@@ -128,7 +128,7 @@ export default {
       CI: '',
       direccion: '',
       telefono: '',
-      anno_academico: '',
+      anno_academico: ''
     },
     defaultItem: {
       nombre: '',
@@ -220,13 +220,18 @@ export default {
     },
 
     async save() {
-      try {
-        await this.$strapi.create('estudiante', {
-          data: this.editedItem,
+      await axios
+        .post('http://localhost:1337/api/estudiantes', {
+          "data": this.editedItem
         })
-      } catch (error) {
-        console.log(error)
-      }S
+        .then(response => {
+          console.log(response);
+        })
+        .catch(error => {
+          console.error(error);
+        });
+      this.estudiante = [];
+      await this.initialize();
       this.close()
     },
   },
