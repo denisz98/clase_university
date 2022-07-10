@@ -165,7 +165,6 @@ export default {
         .get('http://localhost:1337/api/estudiantes')
         .then((response) => {
           response.data.data.forEach((item) => {
-            console.log(item.id)
             this.estudiante.push({
               id: item.id,
               nombre: item.attributes.nombre,
@@ -220,16 +219,30 @@ export default {
     },
 
     async save() {
-      await axios
-        .post('http://localhost:1337/api/estudiantes', {
-          "data": this.editedItem
-        })
-        .then(response => {
-          console.log(response);
-        })
-        .catch(error => {
-          console.error(error);
-        });
+        if (this.editedIndex > -1) {
+          console.log(this.estudiante[this.editedIndex].id)
+          await axios
+            .put('http://localhost:1337/api/estudiantes/'+this.estudiante[this.editedIndex].id+'/', {
+              "data": this.editedItem
+            })
+            .then(response => {
+              console.log(response);
+            })
+            .catch(error => {
+              console.error(error);
+            });
+        } else {
+          await axios
+            .post('http://localhost:1337/api/estudiantes', {
+              "data": this.editedItem
+            })
+            .then(response => {
+              console.log(response);
+            })
+            .catch(error => {
+              console.error(error);
+            });
+        }
       this.estudiante = [];
       await this.initialize();
       this.close()
